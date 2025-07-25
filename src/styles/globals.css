@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@config "../../tailwind.config.js";
+@plugin "tailwind-scrollbar" {
+  nocompatible: true;
+  preferredStrategy: 'pseudoelements';
+}
+
+/* 添加透明背景（光窗口透明没用！） */
+html, body, #root {
+  background: transparent !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* 通用滚动条样式类 */
+.custom-scrollbar-dark {
+  @apply scrollbar-w-1 scrollbar scrollbar-thumb-rounded-full scrollbar-thumb-gray-600 scrollbar-track-gray-800 hover:scrollbar-thumb-gray-400 cursor-auto;
+}
+
