@@ -1,5 +1,5 @@
 import { Store } from '@tauri-apps/plugin-store';
-import { FloatOneConfig } from '@/types/floatone-config';
+import { FloatOneConfig } from '@/config/config';
 
 /**
  * Tauri 存储管理类

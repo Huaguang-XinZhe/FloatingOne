@@ -1,4 +1,4 @@
-import { FloatOneConfig, DEFAULT_CONFIG } from '@/types/floatone-config';
+import { FloatOneConfig, DEFAULT_CONFIG } from '@/config/config';
 import { create } from 'zustand';
 import { configStoreManager } from './configStoreManager';
 import { listen, emit } from '@tauri-apps/api/event';

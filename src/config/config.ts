@@ -5,6 +5,7 @@ export interface FloatOneConfig {
   autoRotate: boolean;
   rotateInterval: number; // 轮换间隔，单位：秒
   theme: Theme;
+  autoStart: boolean;   // 开机自启动
 }
 
 export const DEFAULT_CONFIG: FloatOneConfig = {
@@ -14,5 +15,6 @@ export const DEFAULT_CONFIG: FloatOneConfig = {
   ],
   autoRotate: true,
   rotateInterval: 60,
-  theme: "dark"
+  theme: "dark",
+  autoStart: true
 };

@@ -19,6 +19,9 @@
     "store:allow-delete",
     "core:webview:allow-create-webview-window",
     "window-state:default",
-    "process:default"
+    "process:default",
+    "autostart:allow-enable",
+    "autostart:allow-disable",
+    "autostart:allow-is-enabled"
   ]
 }

@@ -18,7 +18,8 @@ import {
 } from "@/styles/component-styles";
 import { useWindowDrag } from "@/hooks/useWindowDrag";
 import { useAutoDestroy } from "@/hooks/useAutoDestroy";
-import { DEFAULT_CONFIG, FloatOneConfig, Theme } from "@/types/floatone-config";
+import { DEFAULT_CONFIG, FloatOneConfig, Theme } from "@/config/config";
+import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 
 const SettingsPage: React.FC = () => {
   // 使用 zustand store
@@ -38,6 +39,7 @@ const SettingsPage: React.FC = () => {
   const [rotateInterval, setRotateInterval] = useState<number>(60);
   const [autoRotate, setAutoRotate] = useState<boolean>(false);
   const [theme, setTheme] = useState<Theme>("dark");
+  const [autoStart, setAutoStart] = useState<boolean>(true);
   const [isShaking, setIsShaking] = useState<boolean>(false);
   const [placeholderText, setPlaceholderText] =
     useState<string>("在此输入提示语，每行一条...");
@@ -49,6 +51,7 @@ const SettingsPage: React.FC = () => {
     setRotateInterval(config.rotateInterval);
     setAutoRotate(config.autoRotate);
     setTheme(config.theme);
+    setAutoStart(config.autoStart);
   };
 
   // 当配置初始化完成时，同步本地状态
@@ -79,11 +82,26 @@ const SettingsPage: React.FC = () => {
       return;
     }
 
+    const actualAutoStart = await isEnabled();
+    console.log("actualAutoStart", actualAutoStart);
+    if (autoStart !== actualAutoStart) {
+      console.log("autoStart !== actualAutoStart");
+      // 像配置看齐
+      if (autoStart) {
+        // 如果配置是开启，但是实际是关闭，则开启
+        await enable();
+      } else {
+        // 如果配置是关闭，但是实际是开启，则关闭
+        await disable();
+      }
+    }
+
     await updateConfig({
       tips,
       rotateInterval,
       autoRotate,
       theme,
+      autoStart,
     });
 
     console.log("Settings saved successfully");
@@ -180,6 +198,17 @@ const SettingsPage: React.FC = () => {
             classNames={darkNumberInputStyles}
           />
         </div>
+
+        <Switch
+          color="primary"
+          isSelected={autoStart}
+          onValueChange={(value) => {
+            handleUserActivity();
+            setAutoStart(value);
+          }}
+        >
+          开机自启动
+        </Switch>
 
         {/* 下部分：提示语输入区 */}
         <Textarea
