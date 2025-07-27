@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useResizeWindow } from "@/components/AutoResizeWindow";
 import { useConfigStore } from "@/store";
+import { useCooldown } from "./useDebounce";
 
 export function useFloatingExpand() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -66,8 +67,8 @@ export function useFloatingExpand() {
     hasRotated.current = true;
   };
 
-  // 处理鼠标悬停展开
-  const handleMouseEnter = () => {
+  // 原始的鼠标悬停展开处理函数
+  const handleMouseEnterInternal = () => {
     // 为什么鼠标从关闭按钮上离开，到浮动提示上，会再次触发鼠标进入事件❓
     console.log("useFloatingExpand handleMouseEnter");
     if (collapseTimeout.current) {
@@ -91,6 +92,12 @@ export function useFloatingExpand() {
     // 更新窗口大小，宽度和高度都调整
     resizeWindow({ width: 1080, height: 250 }); // 采用限定的最大值❗
   };
+
+  // 使用防抖 hook，防止频繁触发展开，间隔 1.5 秒
+  const [handleMouseEnter] = useCooldown(
+    handleMouseEnterInternal,
+    1500 // 1.5 秒冷却时间
+  );
 
   // 处理鼠标离开收起
   const handleMouseLeave = () => {
