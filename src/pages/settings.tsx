@@ -230,6 +230,7 @@ const SettingsPage: React.FC = () => {
             handleUserActivity();
             setTipsText("");
           }}
+          // todo 待优化
           classNames={{
             ...darkTextareaStyles,
             base: `${darkTextareaStyles.base || ""} ${isShaking ? "animate-shake" : ""}`,

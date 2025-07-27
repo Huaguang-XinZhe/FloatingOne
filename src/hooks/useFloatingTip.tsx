@@ -118,7 +118,7 @@ export function useFloatingExpand() {
     resizeTimeout.current = setTimeout(() => {
       // 收缩时只调整高度
       resizeWindow({ onlyResizeHeight: true });
-    }, 550); // 500ms 不行，这个时候还没有完全隐藏❗
+    }, 600); // 500ms 不行，这个时候还没有完全隐藏❗
   };
 
   return {

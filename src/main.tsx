@@ -8,6 +8,7 @@ import { initializeConfig } from "@/store";
 import "@/styles/globals.css";
 // Supports weights 100-800
 import "@fontsource-variable/jetbrains-mono";
+import { initializeTray } from "@/utils/trayManager";
 
 // 应用启动时初始化配置
 initializeConfig()
@@ -16,6 +17,15 @@ initializeConfig()
   })
   .catch((error) => {
     console.error("Failed to initialize configuration:", error);
+  });
+
+// 初始化系统托盘
+initializeTray()
+  .then(() => {
+    console.log("System tray initialized");
+  })
+  .catch((error) => {
+    console.error("Failed to initialize system tray:", error);
   });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
