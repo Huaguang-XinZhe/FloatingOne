@@ -24,5 +24,10 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
+  // 忽略这些目录，提高编译速度
+  "exclude": [
+    "src/components/test/**/*",
+    "src/preview/**/*"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
