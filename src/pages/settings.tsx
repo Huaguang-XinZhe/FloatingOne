@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
 import { useConfigStore } from "@/store";
 import { Button } from "@heroui/button";
 import { Switch } from "@heroui/switch";
@@ -21,6 +21,7 @@ import {
   AutoRotateSection,
   TipsInputSection,
 } from "@/components/settings";
+import { useResizeWindow } from "@/components/AutoResizeWindow";
 import type {
   AutoRotateSectionRef,
   TipsInputSectionRef,
@@ -37,6 +38,7 @@ const SettingsPage: React.FC = () => {
   const tipsInputRef = useRef<TipsInputSectionRef>(null);
 
   const { handleDragStart } = useWindowDrag();
+  const resizeWindow = useResizeWindow();
 
   // 本地状态，用于表单
   const [theme, setTheme] = useState<Theme>("dark");
@@ -53,6 +55,13 @@ const SettingsPage: React.FC = () => {
   useEffect(() => {
     if (isInitialized) {
       setLocalState(config);
+    }
+  }, [isInitialized]);
+
+  // 在 DOM 更新后（绘制前）调用 resizeWindow（会阻塞❗）
+  useLayoutEffect(() => {
+    if (isInitialized) {
+      resizeWindow();
     }
   }, [isInitialized]);
 
@@ -73,7 +82,7 @@ const SettingsPage: React.FC = () => {
     console.log("actualAutoStart", actualAutoStart);
     if (autoStart !== actualAutoStart) {
       console.log("autoStart !== actualAutoStart");
-      // 像配置看齐
+      // 向配置看齐
       if (autoStart) {
         // 如果配置是开启，但是实际是关闭，则开启
         await enable();

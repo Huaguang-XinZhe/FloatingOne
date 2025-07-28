@@ -28,6 +28,13 @@ initializeTray()
     console.error("Failed to initialize system tray:", error);
   });
 
+// 禁用右键菜单
+document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+});
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>

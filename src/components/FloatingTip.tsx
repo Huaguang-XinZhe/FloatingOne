@@ -7,6 +7,8 @@ import { glowEffectStyles } from "@/styles/component-styles";
 import { FloatingTipButtons } from "@/components/FloatingTipButtons";
 import { gradient } from "@/components/primitives";
 import { cn } from "@/utils/cn";
+import { initializeMainWindowPosition } from "@/utils/window";
+import { useEffect } from "react";
 
 const FloatingTip: React.FC = () => {
   const { handleDragStart } = useWindowDrag();
@@ -22,6 +24,14 @@ const FloatingTip: React.FC = () => {
 
   // 调试信息
   console.log("FloatingTip currentTip:", currentTip);
+
+  useEffect(() => {
+    initializeMainWindowPosition();
+    // 延迟展开（掩盖安装首次 hover 时的卡顿展开的现象）
+    setTimeout(() => {
+      handleMouseEnter();
+    }, 1000);
+  }, []);
 
   return (
     <div
@@ -70,7 +80,7 @@ const FloatingTip: React.FC = () => {
               type: "spring",
               stiffness: 400,
               damping: 30,
-              opacity: { duration: 0.15 },
+              duration: 0.2,
             }}
             className={cn(
               "w-full text-white p-4 overflow-hidden relative",
@@ -81,7 +91,16 @@ const FloatingTip: React.FC = () => {
             {/* 光晕效果 */}
             <div className={glowEffectStyles.right} />
 
-            <div className="flex justify-between items-center z-10 relative gap-1">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: 1,
+              }}
+              transition={{
+                duration: 0.6,
+              }}
+              className="flex justify-between items-center z-10 relative gap-1"
+            >
               <div className="flex-1 overflow-hidden select-none">
                 <p className="text-lg font-medium whitespace-pre-line">
                   {currentTip?.main}
@@ -93,7 +112,7 @@ const FloatingTip: React.FC = () => {
                 )}
               </div>
               <FloatingTipButtons />
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

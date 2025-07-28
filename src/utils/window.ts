@@ -1,6 +1,7 @@
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Event } from "@tauri-apps/api/event";
-import { LogicalSize, Window } from "@tauri-apps/api/window";
+import { LogicalPosition, Window } from "@tauri-apps/api/window";
+import { primaryMonitor } from "@tauri-apps/api/window";
 
 interface CreateWindowOptions {
   url?: string;
@@ -26,7 +27,7 @@ export const createWindow = (
 ): WebviewWindow => {
   // 提取 fitContent 选项，不传递给 WebviewWindow 构造函数
   const { fitContent = true, ...windowOptions } = options;
-//   console.log("windowOptions", windowOptions);
+  //   console.log("windowOptions", windowOptions);
 
   // 如果启用了自动调整大小，添加查询参数
   if (fitContent && windowOptions.url) {
@@ -53,7 +54,9 @@ export const createWindow = (
  * @param fitContent 是否自动调整窗口大小以适应内容
  * @returns 创建的设置窗口实例
  */
-export const createSettingsWindow = (fitContent: boolean = true): WebviewWindow => {
+export const createSettingsWindow = (
+  fitContent: boolean = true
+): WebviewWindow => {
   return createWindow("settings", {
     url: "/settings",
     title: "设置",
@@ -68,16 +71,57 @@ export const createSettingsWindow = (fitContent: boolean = true): WebviewWindow 
     // alwaysOnTop: true,
     fitContent,
   });
-}; 
+};
+
+/**
+ * 初始化主窗口的位置
+ */
+export const initializeMainWindowPosition = async () => {
+  const mainWindow = await Window.getByLabel("main");
+  if (mainWindow) {
+    const windowWidth = 1080;
+    // const windowHeight = 12;
+
+    // // 设置窗口大小
+    // await mainWindow.setSize(new LogicalSize(windowWidth, windowHeight));
+
+    // 获取主显示器信息并计算居中位置
+    try {
+      const monitor = await primaryMonitor();
+      if (monitor) {
+        // 使用逻辑尺寸而不是物理尺寸
+        const screenLogicalWidth = monitor.size.width / monitor.scaleFactor;
+        console.log(
+          "screenWidth",
+          monitor.size.width,
+          "scaleFactor",
+          monitor.scaleFactor,
+          "logicalWidth",
+          screenLogicalWidth
+        );
+        const x = Math.floor((screenLogicalWidth - windowWidth) / 2);
+        const y = 0; // 贴顶部
+
+        await mainWindow.setPosition(new LogicalPosition(x, y));
+        console.log(`窗口已设置到居中位置: (${x}, ${y})`);
+      } else {
+        // 如果无法获取显示器信息，使用默认居中位置
+        await mainWindow.setPosition(new LogicalPosition(228, 0)); // 假设1920（逻辑宽度 1536）屏幕的居中
+      }
+    } catch (error) {
+      console.error("获取显示器信息失败，使用默认位置:", error);
+      await mainWindow.setPosition(new LogicalPosition(228, 0));
+    }
+  }
+};
 
 /**
  * 把主窗口高度恢复到初始值
  */
-export const resetMainWindowHeight = async (
-) => {
-  const mainWindow = await Window.getByLabel("main");
-  if (mainWindow) {
-    await mainWindow.setSize(new LogicalSize(1080, 12));
-  }
-};
-
+// export const resetMainWindowHeight = async (
+// ) => {
+//   const mainWindow = await Window.getByLabel("main");
+//   if (mainWindow) {
+//     await mainWindow.setSize(new LogicalSize(1080, 12));
+//   }
+// };

@@ -79,8 +79,18 @@ jobs:
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          # 只在macOS运行器上添加这些目标，以加快Windows和Linux构建速度
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          # 为所有平台添加适当的目标
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || matrix.platform == 'windows-latest' && 'x86_64-pc-windows-msvc' || matrix.platform == 'ubuntu-latest' && 'x86_64-unknown-linux-gnu' || '' }}
+
+      # 立即在安装Rust工具链后进行缓存
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+          cache-on-failure: true
+          # 使用平台和Rust版本作为缓存键
+          key: rust-${{ matrix.platform }}-${{ hashFiles('**/Cargo.lock') }}
+          save-if: "true"
 
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
@@ -92,11 +102,6 @@ jobs:
 
       - name: Install frontend dependencies
         run: bun install
-
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
-        with:
-          workspaces: './src-tauri -> target'
 
       - name: Build the app
         uses: tauri-apps/tauri-action@v0

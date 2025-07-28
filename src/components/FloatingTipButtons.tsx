@@ -3,7 +3,7 @@ import { Settings, X } from "lucide-react";
 import { Button } from "@heroui/button";
 import { buttonStyles } from "@/styles/component-styles";
 import { exit } from "@tauri-apps/plugin-process";
-import { createSettingsWindow, resetMainWindowHeight } from "@/utils/window";
+import { createSettingsWindow } from "@/utils/window";
 import { Window } from "@tauri-apps/api/window";
 
 export const FloatingTipButtons = () => {
@@ -32,7 +32,7 @@ export const FloatingTipButtons = () => {
   // 处理退出应用程序
   const handleExit = async () => {
     try {
-      await resetMainWindowHeight();
+      // await resetMainWindowHeight();
       await exit(0);
     } catch (error) {
       console.error("退出应用程序失败:", error);
