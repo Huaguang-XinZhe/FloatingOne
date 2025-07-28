@@ -1,5 +1,6 @@
 import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Event } from "@tauri-apps/api/event";
+import { LogicalSize, Window } from "@tauri-apps/api/window";
 
 interface CreateWindowOptions {
   url?: string;
@@ -56,8 +57,8 @@ export const createSettingsWindow = (fitContent: boolean = true): WebviewWindow 
   return createWindow("settings", {
     url: "/settings",
     title: "设置",
-    width: 400,
-    height: 380,
+    width: 500,
+    height: 500,
     decorations: false,
     resizable: false,
     center: true,
@@ -68,4 +69,15 @@ export const createSettingsWindow = (fitContent: boolean = true): WebviewWindow 
     fitContent,
   });
 }; 
+
+/**
+ * 把主窗口高度恢复到初始值
+ */
+export const resetMainWindowHeight = async (
+) => {
+  const mainWindow = await Window.getByLabel("main");
+  if (mainWindow) {
+    await mainWindow.setSize(new LogicalSize(1080, 12));
+  }
+};
 

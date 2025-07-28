@@ -18,7 +18,7 @@ function App() {
       <Route
         path="/settings"
         element={
-          <AutoResizeWindow>
+          <AutoResizeWindow initialResize={false}>
             <SettingsPage />
           </AutoResizeWindow>
         }

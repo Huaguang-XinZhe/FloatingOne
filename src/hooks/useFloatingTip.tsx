@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useResizeWindow } from "@/components/AutoResizeWindow";
 import { useConfigStore } from "@/store";
 import { useCooldown } from "./useDebounce";
+import { parseAllTips, ParsedTip } from "@/config/config";
 
 export function useFloatingExpand() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -17,34 +18,37 @@ export function useFloatingExpand() {
   // console.log("useFloatingExpand config", config);
   const { tips, autoRotate, rotateInterval } = config;
 
+  // 解析提示文本
+  const parsedTips: ParsedTip[] = parseAllTips(tips);
+
   // 使用索引而不是直接存储提示文本
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   // 处理提示轮换和索引边界检查
   useEffect(() => {
-    console.log(
-      "tips/rotation effect",
-      tips,
-      autoRotate,
-      rotateInterval,
-      isExpanded
-    );
+    // console.log(
+    //   "tips/rotation effect",
+    //   tips,
+    //   autoRotate,
+    //   rotateInterval,
+    //   isExpanded
+    // );
 
     // 确保索引在有效范围内（立即执行，没有定时器的延迟，避免出现空值❗）
-    if (tips.length > 0 && currentTipIndex >= tips.length) {
+    if (parsedTips.length > 0 && currentTipIndex >= parsedTips.length) {
       setCurrentTipIndex(0);
       // return; // 放行，继续设置轮换定时器
     }
 
     // 如果不需要轮换，就直接返回
-    if (!autoRotate || tips.length <= 1 || isExpanded) return;
+    if (!autoRotate || parsedTips.length <= 1 || isExpanded) return;
 
     // 设置轮换定时器
     const timer = setInterval(() => {
       const fn = (prevIndex: number) => {
         console.log("prevIndex", prevIndex);
-        console.log("tips.length", tips.length);
-        const nextIndex = (prevIndex + 1) % tips.length;
+        console.log("parsedTips.length", parsedTips.length);
+        const nextIndex = (prevIndex + 1) % parsedTips.length;
         console.log("nextIndex", nextIndex);
         return nextIndex;
       };
@@ -55,14 +59,21 @@ export function useFloatingExpand() {
 
     // 清理函数
     return () => clearInterval(timer);
-  }, [autoRotate, rotateInterval, tips, isExpanded]);
+  }, [autoRotate, rotateInterval, parsedTips, isExpanded]);
 
-  // 从 tips 数组中获取当前提示
-  const currentTip = tips[currentTipIndex];
+  // 从 parsedTips 数组中获取当前提示
+  const currentTip = parsedTips[currentTipIndex];
 
   // 随机旋转角度，让提示看起来更自然
   const updateRotation = () => {
-    const newRotation = Math.random() * 6 - 3; // -3 到 3 度之间的随机值
+    let newRotation = Math.random() * 6 - 3; // -3 到 3 度之间的随机值
+    if (currentTip.main.length > 60) {
+      // 降低旋转角度
+      newRotation = Math.random() * 2 - 1; // -1 到 1 度之间的随机值
+      console.log("降低旋转角度❗");
+      console.log("currentTip.main.length", currentTip.main.length);
+      console.log("newRotation", newRotation);
+    }
     setRotation(newRotation);
     hasRotated.current = true;
   };

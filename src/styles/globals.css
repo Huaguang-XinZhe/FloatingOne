@@ -18,3 +18,15 @@ html, body, #root {
   @apply scrollbar-w-1 scrollbar scrollbar-thumb-rounded-full scrollbar-thumb-gray-600 scrollbar-track-gray-800 hover:scrollbar-thumb-gray-400 cursor-auto;
 }
 
+/* 通用内联 code 样式 */
+code {
+  @apply text-gray-400 bg-gray-800 px-1 rounded;
+}
+
+/* 通用引用样式 */
+.blockquote-500 {
+  @apply text-xs border-l-2 border-gray-500 pl-2 text-gray-500;
+}
+.blockquote-400 {
+  @apply text-xs border-l-2 border-gray-400 pl-2 text-gray-400;
+}

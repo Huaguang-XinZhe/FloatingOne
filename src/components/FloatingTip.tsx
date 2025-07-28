@@ -20,6 +20,9 @@ const FloatingTip: React.FC = () => {
     currentTip,
   } = useFloatingExpand();
 
+  // 调试信息
+  console.log("FloatingTip currentTip:", currentTip);
+
   return (
     <div
       className="w-fit h-fit flex flex-col items-center group max-w-[1000px] max-h-[220px]"
@@ -79,9 +82,16 @@ const FloatingTip: React.FC = () => {
             <div className={glowEffectStyles.right} />
 
             <div className="flex justify-between items-center z-10 relative gap-1">
-              <p className="text-lg font-medium flex-1 overflow-hidden select-none line-clamp-6 whitespace-pre-line">
-                {currentTip}
-              </p>
+              <div className="flex-1 overflow-hidden select-none">
+                <p className="text-lg font-medium whitespace-pre-line">
+                  {currentTip?.main}
+                </p>
+                {currentTip?.description && (
+                  <p className="blockquote-400 mt-1">
+                    {currentTip.description}
+                  </p>
+                )}
+              </div>
               <FloatingTipButtons />
             </div>
           </motion.div>

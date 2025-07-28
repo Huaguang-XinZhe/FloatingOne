@@ -15,7 +15,7 @@ export const darkInputStyles = {
 // 文本域通用暗色主题样式
 export const darkTextareaStyles = {
   ...darkInputStyles,
-  base: "max-w-112"
+  base: "w-md"
 };
 
 // 数字输入框通用暗色主题样式

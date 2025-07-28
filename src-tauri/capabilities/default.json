@@ -23,6 +23,7 @@
     "autostart:allow-enable",
     "autostart:allow-disable",
     "autostart:allow-is-enabled",
-    "core:app:allow-default-window-icon"
+    "core:app:allow-default-window-icon",
+    "core:window:allow-set-always-on-top"
   ]
 }

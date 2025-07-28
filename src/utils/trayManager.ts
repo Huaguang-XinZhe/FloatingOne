@@ -3,7 +3,7 @@ import { Menu } from "@tauri-apps/api/menu";
 import { defaultWindowIcon } from "@tauri-apps/api/app";
 import { Window } from "@tauri-apps/api/window";
 import { exit } from "@tauri-apps/plugin-process";
-import { createSettingsWindow } from "./windowManager";
+import { createSettingsWindow, resetMainWindowHeight } from "./window";
 
 
 /**
@@ -94,6 +94,7 @@ async function handleSettingsClick(): Promise<void> {
  */
 async function handleQuitClick(): Promise<void> {
   try {
+    await resetMainWindowHeight();
     await exit(0);
   } catch (error) {
     console.error("退出应用失败:", error);
