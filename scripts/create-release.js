@@ -61,8 +61,8 @@ try {
   
   // 提交更改
   try {
-    // 添加修改的文件
-    execSync('git add package.json src-tauri/tauri.conf.json src-tauri/Cargo.toml');
+    // 添加所有更改的文件，确保不会遗漏任何更改
+    execSync('git add .');
     
     // 检查是否有文件被暂存
     const stagedFiles = execSync('git diff --cached --name-only').toString().trim();
