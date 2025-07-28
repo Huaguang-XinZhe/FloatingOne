@@ -63,6 +63,32 @@ bun run build
 - **轮换间隔**：设置提示轮换的时间间隔（秒）
 - **快捷键**：自定义显示/隐藏快捷键
 
+## 构建与发布
+
+### 本地构建
+
+```bash
+# 构建生产版本
+bun run build
+```
+
+### 使用 GitHub Actions 自动构建
+
+本项目配置了 GitHub Actions 工作流，可以自动构建适用于 Windows、macOS (Intel 和 Apple Silicon) 和 Linux 的安装包：
+
+1. 使用发布脚本创建新版本：`bun run release 0.1.0`
+2. 或手动推送标签（如 `v0.1.0`）到仓库触发工作流
+3. GitHub Actions 将自动构建以下平台的安装包：
+   - Windows (x64)
+   - macOS Intel (x86_64)
+   - macOS Apple Silicon (ARM64)
+   - Linux (x64)
+4. 构建完成后，安装包会被上传到 GitHub Release
+
+详细说明请参考：
+- [发布指南](docs/release-guide.md)
+- [GitHub Actions 配置说明](.github/README.md)
+
 ## 许可证
 
 MIT

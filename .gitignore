@@ -7,10 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build outputs
 dist
 dist-ssr
 *.local
+
+# Tauri build outputs
+src-tauri/target
+src-tauri/gen
 
 # Editor directories and files
 !.vscode/extensions.json
@@ -22,8 +29,15 @@ dist-ssr
 *.sln
 *.sw?
 
-
+# Lock files (uncomment if you want to ignore them)
 pnpm-lock.yaml
 yarn.lock
 package-lock.json
 bun.lockb
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
