@@ -9,6 +9,8 @@ on:
 jobs:
   create-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       release_id: ${{ steps.create-release.outputs.result }}
 
@@ -45,6 +47,8 @@ jobs:
 
   build-tauri:
     needs: create-release
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
@@ -104,6 +108,8 @@ jobs:
 
   publish-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: [create-release, build-tauri]
 
     steps:
