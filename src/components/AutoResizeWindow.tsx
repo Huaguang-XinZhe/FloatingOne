@@ -76,8 +76,9 @@ export default function AutoResizeWindow({
     const el = contentRef.current;
     if (el) {
       const rect = el.getBoundingClientRect();
-      let width = rect.width;
-      let height = rect.height;
+      // 向上取整
+      let width = Math.ceil(rect.width);
+      let height = Math.ceil(rect.height);
 
       // 如果单独指定了宽度或高度，使用指定的值
       if (options?.width !== undefined) {

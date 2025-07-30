@@ -111,7 +111,8 @@ const SettingsPage: React.FC = () => {
 
   return isInitialized ? (
     <Card
-      shadow="lg"
+      // shadow="lg"
+      shadow="none" // 默认有一个
       className="flex flex-col bg-gray-900 border border-gray-700/50 overflow-hidden relative"
     >
       {/* 光晕效果 */}

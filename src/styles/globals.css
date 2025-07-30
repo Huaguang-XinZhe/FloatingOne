@@ -11,6 +11,8 @@ html, body, #root {
   background: transparent !important;
   margin: 0;
   padding: 0;
+  /* 解决 Edge WebView 弹性滚动问题 */
+  overscroll-behavior: none;
 }
 
 /* 通用滚动条样式类 */
