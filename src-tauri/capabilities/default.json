@@ -24,6 +24,8 @@
     "autostart:allow-disable",
     "autostart:allow-is-enabled",
     "core:app:allow-default-window-icon",
-    "core:window:allow-set-always-on-top"
+    "core:window:allow-set-always-on-top",
+    "core:window:allow-set-ignore-cursor-events",
+    "core:window:allow-set-shadow"
   ]
 }

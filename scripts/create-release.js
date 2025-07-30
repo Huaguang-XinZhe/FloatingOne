@@ -59,6 +59,17 @@ try {
   fs.writeFileSync(cargoTomlPath, cargoToml);
   console.log(`✅ 已更新 Cargo.toml 版本号为 ${version}`);
   
+  // 更新 Cargo.lock 文件
+  try {
+    console.log('🔄 正在更新 Cargo.lock 文件...');
+    execSync('cargo update', { cwd: path.join(process.cwd(), 'src-tauri') });
+    console.log('✅ 已更新 Cargo.lock 文件');
+  } catch (error) {
+    console.error(`❌ 更新 Cargo.lock 文件时出错: ${error.message}`);
+    console.log('💡 提示：请确保已安装 Rust 和 Cargo，或手动运行 "cargo update" 命令');
+    process.exit(1);
+  }
+  
   // 提交更改
   try {
     // 添加所有更改的文件，确保不会遗漏任何更改

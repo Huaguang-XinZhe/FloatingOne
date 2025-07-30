@@ -9,12 +9,7 @@ import { Divider } from "@heroui/divider";
 import { Save, RotateCcw } from "lucide-react";
 import { buttonStyles, glowEffectStyles } from "@/styles/component-styles";
 import { useWindowDrag } from "@/hooks/useWindowDrag";
-import {
-  DEFAULT_CONFIG,
-  FloatOneConfig,
-  Theme,
-  parseTipsFromText,
-} from "@/config/config";
+import { FloatOneConfig, Theme, parseTipsFromText } from "@/config/config";
 import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import {
   SettingsHeader,
@@ -61,6 +56,7 @@ const SettingsPage: React.FC = () => {
   // 在 DOM 更新后（绘制前）调用 resizeWindow（会阻塞❗）
   useLayoutEffect(() => {
     if (isInitialized) {
+      console.log("useLayoutEffect");
       resizeWindow();
     }
   }, [isInitialized]);
@@ -106,7 +102,12 @@ const SettingsPage: React.FC = () => {
   };
 
   const handleReset = async () => {
-    setLocalState(DEFAULT_CONFIG); // 只导致状态变化，不存储到 store（存储必须点保存）
+    // 重置到首次加载时的配置
+    setLocalState(config);
+
+    // 重置子组件状态到初始值
+    autoRotateRef.current?.reset();
+    tipsInputRef.current?.reset();
   };
 
   return isInitialized ? (
@@ -179,7 +180,7 @@ const SettingsPage: React.FC = () => {
         label="加载配置中..."
         variant="gradient"
         classNames={{
-          label: "text-gray-400",
+          label: "text-white",
         }}
       />
     </div>

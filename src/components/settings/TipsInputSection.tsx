@@ -10,6 +10,7 @@ interface TipsInputSectionProps {
 export interface TipsInputSectionRef {
   validateTips: () => boolean;
   getTipsText: () => string;
+  reset: () => void;
 }
 
 const defaultPlaceholderText = "在此输入提示语，每行一条...";
@@ -59,6 +60,10 @@ export const TipsInputSection = React.forwardRef<
     () => ({
       validateTips,
       getTipsText: () => tipsText,
+      reset: () => {
+        setTipsText(initialTipsText);
+        setPlaceholderText(defaultPlaceholderText);
+      },
     }),
     [tipsText]
   );

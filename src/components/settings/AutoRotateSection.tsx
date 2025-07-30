@@ -10,6 +10,7 @@ interface AutoRotateSectionProps {
 
 export interface AutoRotateSectionRef {
   getValues: () => { autoRotate: boolean; rotateInterval: number };
+  reset: () => void;
 }
 
 export const AutoRotateSection = React.forwardRef<
@@ -19,11 +20,15 @@ export const AutoRotateSection = React.forwardRef<
   const [autoRotate, setAutoRotate] = useState(initialAutoRotate);
   const [rotateInterval, setRotateInterval] = useState(initialRotateInterval);
 
-  // 暴露获取当前值的方法
+  // 暴露获取当前值和重置的方法
   React.useImperativeHandle(
     ref,
     () => ({
       getValues: () => ({ autoRotate, rotateInterval }),
+      reset: () => {
+        setAutoRotate(initialAutoRotate);
+        setRotateInterval(initialRotateInterval);
+      },
     }),
     [autoRotate, rotateInterval]
   );

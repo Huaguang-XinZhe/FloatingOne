@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@heroui/button";
 import { ChevronLeft, Pin } from "lucide-react";
 import { Window } from "@tauri-apps/api/window";
@@ -19,11 +19,6 @@ export const SettingsHeader: React.FC<SettingsHeaderProps> = ({
 }) => {
   const [isAlwaysOnTop, setIsAlwaysOnTop] = useState<boolean>(false);
   const appWindow = Window.getCurrent();
-
-  // 初始化时获取窗口置顶状态
-  useEffect(() => {
-    appWindow.isAlwaysOnTop().then(setIsAlwaysOnTop);
-  }, []);
 
   const handleAlwaysOnTopToggle = () => {
     appWindow.isAlwaysOnTop().then((currentState) => {

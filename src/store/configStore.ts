@@ -32,8 +32,8 @@ export const useConfigStore = create<ConfigState>((set, get) => ({
     try {
       const storedConfig = await configStoreManager.getStoredConfig();
       if (storedConfig) {
-        // // 调试延迟
-        // await new Promise(resolve => setTimeout(resolve, 10000));
+        // 调试延迟
+        // await new Promise(resolve => setTimeout(resolve, 5000));
         set({ 
           config: storedConfig, 
           isInitialized: true
