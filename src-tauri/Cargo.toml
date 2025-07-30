@@ -1,6 +1,6 @@
 [package]
 name = "app"
-version = "0.5.8"
+version = "0.5.9"
 description = "悬一句 - 桌面提示应用"
 authors = ["you"]
 license = ""
