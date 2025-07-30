@@ -52,14 +52,22 @@ const FloatingTip: React.FC = () => {
         animate={{
           width: isExpanded ? "100%" : "8rem",
         }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        transition={{
+          type: "tween",
+          duration: 0.2,
+          ease: "easeInOut",
+        }}
       >
         {/* 光晕效果 */}
         <div className={glowEffectStyles.bar} />
 
         <motion.div
           animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          transition={{
+            type: "tween",
+            duration: 0.3,
+            ease: "easeInOut",
+          }}
         >
           <ChevronDown className="h-3 w-3 text-white" />
         </motion.div>
@@ -77,10 +85,9 @@ const FloatingTip: React.FC = () => {
             }}
             exit={{ opacity: 0, scaleY: 0 }}
             transition={{
-              type: "spring",
-              stiffness: 400,
-              damping: 30,
-              duration: 0.2,
+              type: "tween",
+              duration: 0.3,
+              ease: "easeInOut",
             }}
             className={cn(
               "w-full text-white p-4 overflow-hidden relative",
@@ -92,13 +99,13 @@ const FloatingTip: React.FC = () => {
             <div className={glowEffectStyles.right} />
 
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: 1,
-              }}
-              transition={{
-                duration: 0.6,
-              }}
+              // initial={{ opacity: 0 }}
+              // animate={{
+              //   opacity: 1,
+              // }}
+              // transition={{
+              //   duration: 0.6,
+              // }}
               className="flex justify-between items-center z-10 relative gap-1"
             >
               <div className="flex-1 overflow-hidden select-none">

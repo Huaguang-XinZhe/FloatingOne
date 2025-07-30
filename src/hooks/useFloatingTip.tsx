@@ -123,7 +123,7 @@ export function useFloatingExpand() {
       hasRotated.current = false;
       // // 更新窗口大小
       // resizeWindow(); // 不能在这里更新，此时测量，窗口大小没变化❗
-    }, 100);
+    }, 200);
 
     // 延迟更新窗口大小，只调整高度，保持宽度不变
     resizeTimeout.current = setTimeout(() => {
