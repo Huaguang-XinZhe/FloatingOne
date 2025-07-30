@@ -26,6 +26,13 @@
     "core:app:allow-default-window-icon",
     "core:window:allow-set-always-on-top",
     "core:window:allow-set-ignore-cursor-events",
-    "core:window:allow-set-shadow"
+    "core:window:allow-set-shadow",
+    "dialog:allow-message",
+    "dialog:default",
+    "updater:allow-check",
+    "updater:allow-download",
+    "updater:allow-install",
+    "notification:allow-request-permission",
+    "notification:default"
   ]
 }

@@ -30,6 +30,7 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -37,5 +38,16 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDYyMjBGMDQzNTM0MzRFQ0YKUldUUFRrTlRRL0FnWWhkMURUNXQ0OU5HeEk2cEI5VWFkdlNCcVpTc29Tb0tLZjFyNjQxNEZyU1oK",
+      "endpoints": [
+        "https://github.com/Huaguang-XinZhe/FloatingOne/releases/latest/download/latest.json"
+      ],
+      "windows": {
+        "installMode": "passive"
+      }
+    }
   }
 }

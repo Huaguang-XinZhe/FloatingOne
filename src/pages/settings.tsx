@@ -6,7 +6,7 @@ import { Spinner } from "@heroui/spinner";
 import { Window } from "@tauri-apps/api/window";
 import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { Divider } from "@heroui/divider";
-import { Save, RotateCcw } from "lucide-react";
+import { Save, RotateCcw, Download } from "lucide-react";
 import { buttonStyles, glowEffectStyles } from "@/styles/component-styles";
 import { useWindowDrag } from "@/hooks/useWindowDrag";
 import { FloatOneConfig, Theme, parseTipsFromText } from "@/config/config";
@@ -21,6 +21,7 @@ import type {
   AutoRotateSectionRef,
   TipsInputSectionRef,
 } from "@/components/settings";
+import { checkForUpdates } from "@/utils/updater";
 
 const SettingsPage: React.FC = () => {
   // 使用 zustand store
@@ -110,6 +111,10 @@ const SettingsPage: React.FC = () => {
     tipsInputRef.current?.reset();
   };
 
+  const handleCheckUpdate = async () => {
+    await checkForUpdates(true);
+  };
+
   return isInitialized ? (
     <Card
       // shadow="lg"
@@ -154,23 +159,33 @@ const SettingsPage: React.FC = () => {
 
       <Divider className="bg-gray-700/30" />
 
-      <CardFooter className="flex justify-end gap-3 p-4">
+      <CardFooter className="flex justify-between gap-3 p-4">
         <Button
           variant="light"
-          onPress={handleReset}
-          startContent={<RotateCcw size={16} />}
+          onPress={handleCheckUpdate}
+          startContent={<Download size={16} />}
           className={buttonStyles.hoverGray800}
         >
-          重置
+          检查更新
         </Button>
-        <Button
-          color="primary"
-          onPress={handleSave}
-          startContent={<Save size={16} />}
-          className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400"
-        >
-          保存
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            variant="light"
+            onPress={handleReset}
+            startContent={<RotateCcw size={16} />}
+            className={buttonStyles.hoverGray800}
+          >
+            重置
+          </Button>
+          <Button
+            color="primary"
+            onPress={handleSave}
+            startContent={<Save size={16} />}
+            className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400"
+          >
+            保存
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   ) : (
