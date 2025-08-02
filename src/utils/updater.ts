@@ -11,10 +11,13 @@ export async function checkForUpdates(showNoUpdateDialog = false) {
     const update = await check();
 
     if (update === null) {
-      await message("检查更新失败，请稍后重试", {
-        title: "错误",
-        kind: "error",
-      });
+      // 没有可用更新
+      if (showNoUpdateDialog) {
+        await message("当前已是最新版本", {
+          title: "检查更新",
+          kind: "info",
+        });
+      }
       return;
     }
 

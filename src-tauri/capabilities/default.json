@@ -32,6 +32,10 @@
     "updater:allow-check",
     "updater:allow-download",
     "updater:allow-install",
+    {
+      "identifier": "http:default",
+      "allow": [{ "url": "https://github.com/**" }]
+    },
     "notification:allow-request-permission",
     "notification:default"
   ]

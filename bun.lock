@@ -30,6 +30,7 @@
         "@tauri-apps/plugin-autostart": "~2",
         "@tauri-apps/plugin-dialog": "~2",
         "@tauri-apps/plugin-global-shortcut": "^2.3.0",
+        "@tauri-apps/plugin-http": "~2",
         "@tauri-apps/plugin-notification": "~2",
         "@tauri-apps/plugin-process": "~2",
         "@tauri-apps/plugin-store": "^2.3.0",
@@ -472,6 +473,8 @@
     "@tauri-apps/plugin-dialog": ["@tauri-apps/plugin-dialog@2.3.2", "https://registry.npmmirror.com/@tauri-apps/plugin-dialog/-/plugin-dialog-2.3.2.tgz", { "dependencies": { "@tauri-apps/api": "^2.6.0" } }, "sha512-cNLo9YeQSC0MF4IgXnotHsqEgJk72MBZLXmQPrLA95qTaaWiiaFQ38hIMdZ6YbGUNkr3oni3EhU+AD5jLHcdUA=="],
 
     "@tauri-apps/plugin-global-shortcut": ["@tauri-apps/plugin-global-shortcut@2.3.0", "https://registry.npmmirror.com/@tauri-apps/plugin-global-shortcut/-/plugin-global-shortcut-2.3.0.tgz", { "dependencies": { "@tauri-apps/api": "^2.6.0" } }, "sha512-WbAz0ElhpP+0kzQZRScdCC7UQ7OPH8PAn//fsBNu7+ywihsnVSVOg1L9YhieAtLNtAlnmFI69Yl5AGaA3ge5IQ=="],
+
+    "@tauri-apps/plugin-http": ["@tauri-apps/plugin-http@2.5.1", "https://registry.npmmirror.com/@tauri-apps/plugin-http/-/plugin-http-2.5.1.tgz", { "dependencies": { "@tauri-apps/api": "^2.6.0" } }, "sha512-SpQ1azXEdQI0UB2NZTIPljJTDEe0bIaKzHYR/k4UQp6yzRYGLC/ktmIgEfQ2RvKAWus8GcYgGr5K6LJPbo/NZw=="],
 
     "@tauri-apps/plugin-notification": ["@tauri-apps/plugin-notification@2.3.0", "https://registry.npmmirror.com/@tauri-apps/plugin-notification/-/plugin-notification-2.3.0.tgz", { "dependencies": { "@tauri-apps/api": "^2.6.0" } }, "sha512-QDwXo9VzAlH97c0veuf19TZI6cRBPfJDl2O6hNEDvI66j60lOO9z+PL6MJrj8A6Y+t55r7mGhe3rQWLmOre2HA=="],
 
