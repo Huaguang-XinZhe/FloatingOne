@@ -63,7 +63,8 @@ export async function checkForUpdates(showNoUpdateDialog = false) {
         await relaunch();
       } catch (error) {
         console.error("更新安装失败:", error);
-        await message("更新安装失败，请稍后重试", {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        await message(`更新安装失败：${errorMessage}\n\n请稍后重试或联系开发者`, {
           title: "更新失败",
           kind: "error",
         });
@@ -72,7 +73,8 @@ export async function checkForUpdates(showNoUpdateDialog = false) {
   } catch (error) {
     console.error("更新检查失败:", error);
     if (showNoUpdateDialog) {
-      await message("检查更新失败，请稍后重试", {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      await message(`检查更新失败：${errorMessage}\n\n请稍后重试或联系开发者`, {
         title: "错误",
         kind: "error",
       });

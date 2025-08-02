@@ -2,6 +2,7 @@ import { WebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { Event } from "@tauri-apps/api/event";
 import { LogicalPosition, Window } from "@tauri-apps/api/window";
 import { primaryMonitor } from "@tauri-apps/api/window";
+import { moveWindow, Position } from "@tauri-apps/plugin-positioner";
 
 interface CreateWindowOptions {
   url?: string;
@@ -74,43 +75,36 @@ export const createSettingsWindow = (
 };
 
 /**
- * 初始化主窗口的位置
+ * 初始化主窗口的位置（使用 positioner 插件）
  */
 export const initializeMainWindowPosition = async () => {
   const mainWindow = await Window.getByLabel("main");
   if (mainWindow) {
-    const windowWidth = 1080;
-    // const windowHeight = 12;
-
-    // // 设置窗口大小
-    // await mainWindow.setSize(new LogicalSize(windowWidth, windowHeight));
-
-    // 获取主显示器信息并计算居中位置
     try {
-      const monitor = await primaryMonitor();
-      if (monitor) {
-        // 使用逻辑尺寸而不是物理尺寸
-        const screenLogicalWidth = monitor.size.width / monitor.scaleFactor;
-        console.log(
-          "screenWidth",
-          monitor.size.width,
-          "scaleFactor",
-          monitor.scaleFactor,
-          "logicalWidth",
-          screenLogicalWidth
-        );
-        const x = Math.floor((screenLogicalWidth - windowWidth) / 2);
-        const y = 0; // 贴顶部
-
-        await mainWindow.setPosition(new LogicalPosition(x, y));
-        console.log(`窗口已设置到居中位置: (${x}, ${y})`);
-      } else {
-        // 如果无法获取显示器信息，使用默认居中位置
-        await mainWindow.setPosition(new LogicalPosition(228, 0)); // 假设1920（逻辑宽度 1536）屏幕的居中
-      }
+      // 使用 positioner 插件将窗口定位到屏幕顶部中央
+      await moveWindow(Position.TopCenter);
+      console.log("窗口已使用 positioner 插件设置到顶部中央位置");
     } catch (error) {
-      console.error("获取显示器信息失败，使用默认位置:", error);
-      await mainWindow.setPosition(new LogicalPosition(228, 0));
+      console.error("使用 positioner 插件设置窗口位置失败，回退到手动计算:", error);
+      
+      // 回退到原有的手动计算方式
+      const windowWidth = 1080;
+      try {
+        const monitor = await primaryMonitor();
+        if (monitor) {
+          const screenLogicalWidth = monitor.size.width / monitor.scaleFactor;
+          const x = Math.floor((screenLogicalWidth - windowWidth) / 2);
+          const y = 0; // 贴顶部
+          
+          await mainWindow.setPosition(new LogicalPosition(x, y));
+          console.log(`窗口已手动设置到居中位置: (${x}, ${y})`);
+        } else {
+          await mainWindow.setPosition(new LogicalPosition(228, 0));
+        }
+      } catch (fallbackError) {
+        console.error("手动设置窗口位置也失败:", fallbackError);
+        await mainWindow.setPosition(new LogicalPosition(228, 0));
+      }
     }
   }
 };

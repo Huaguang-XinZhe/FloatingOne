@@ -37,6 +37,7 @@
       "allow": [{ "url": "https://github.com/**" }]
     },
     "notification:allow-request-permission",
-    "notification:default"
+    "notification:default",
+    "positioner:default"
   ]
 }

@@ -12,6 +12,7 @@
     "window-state:default",
     "autostart:default",
     "updater:default",
-    "updater:default"
+    "updater:default",
+    "positioner:default"
   ]
 }
