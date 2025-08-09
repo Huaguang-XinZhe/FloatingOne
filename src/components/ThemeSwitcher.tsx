@@ -3,7 +3,7 @@ import { Button } from "@heroui/button";
 import { Moon, Sun } from "lucide-react";
 import { buttonStyles } from "@/styles/component-styles";
 // import { addToast } from "@heroui/toast";
-import { Theme } from "@/config/config";
+import { Theme } from "@/types";
 import { useEffect } from "react";
 
 interface ThemeSwitcherProps {

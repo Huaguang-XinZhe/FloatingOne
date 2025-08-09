@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Textarea } from "@heroui/input";
 import { darkTextareaStyles } from "@/styles/component-styles";
-import { parseTipsFromText } from "@/config/config";
+import { parseTipsFromText } from "@/utils/parseTips";
 
 interface TipsInputSectionProps {
   initialTipsText: string;

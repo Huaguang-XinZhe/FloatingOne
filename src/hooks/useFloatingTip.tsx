@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { useResizeWindow } from "@/components/AutoResizeWindow";
-import { useConfigStore } from "@/store";
 import { useCooldown } from "./useDebounce";
-import { parseAllTips, ParsedTip } from "@/config/config";
+import { parseAllTips, ParsedTip } from "@/utils/parseTips";
 
-export function useFloatingExpand() {
+export function useFloatingExpand(
+  tips: string[],
+  autoRotate: boolean,
+  rotateInterval: number
+) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [rotation, setRotation] = useState(0);
@@ -12,11 +15,6 @@ export function useFloatingExpand() {
   const resizeTimeout = useRef<NodeJS.Timeout | null>(null);
   const hasRotated = useRef(false);
   const resizeWindow = useResizeWindow(); // 使用上下文中的 resizeWindow 函数
-
-  // 从配置中获取提示相关设置
-  const config = useConfigStore((state) => state.config);
-  // console.log("useFloatingExpand config", config);
-  const { tips, autoRotate, rotateInterval } = config;
 
   // 解析提示文本
   const parsedTips: ParsedTip[] = parseAllTips(tips);
@@ -67,7 +65,7 @@ export function useFloatingExpand() {
   // 随机旋转角度，让提示看起来更自然
   const updateRotation = () => {
     let newRotation = Math.random() * 6 - 3; // -3 到 3 度之间的随机值
-    if (currentTip.main.length > 60) {
+    if (currentTip && currentTip.main.length > 60) {
       // 降低旋转角度
       newRotation = Math.random() * 2 - 1; // -1 到 1 度之间的随机值
       console.log("降低旋转角度❗");

@@ -1,35 +1,28 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
-import { useConfigStore } from "@/store";
-import { Button } from "@heroui/button";
+import { useConfig } from "@/store/appStore";
 import { Switch } from "@heroui/switch";
 import { Spinner } from "@heroui/spinner";
-import { Window } from "@tauri-apps/api/window";
+
 import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { Divider } from "@heroui/divider";
-import { Save, RotateCcw, Download } from "lucide-react";
-import { buttonStyles, glowEffectStyles } from "@/styles/component-styles";
+import { glowEffectStyles } from "@/styles/component-styles";
 import { useWindowDrag } from "@/hooks/useWindowDrag";
-import { FloatOneConfig, Theme, parseTipsFromText } from "@/config/config";
-import { enable, isEnabled, disable } from "@tauri-apps/plugin-autostart";
 import {
   SettingsHeader,
   AutoRotateSection,
   TipsInputSection,
+  SettingsActions,
 } from "@/components/settings";
 import { useResizeWindow } from "@/components/AutoResizeWindow";
 import type {
   AutoRotateSectionRef,
   TipsInputSectionRef,
 } from "@/components/settings";
-import { checkForUpdates } from "@/utils/updater";
+import VersionButton from "@/components/VersionButton";
+import { FloatOneConfig, Theme } from "@/types";
 
 const SettingsPage: React.FC = () => {
-  // 使用 zustand store
-  const config = useConfigStore((state) => state.config);
-  const isInitialized = useConfigStore((state) => state.isInitialized);
-  const updateConfig = useConfigStore((state) => state.updateConfig);
-
-  const appWindow = useRef<Window>(Window.getCurrent());
+  const config = useConfig();
   const autoRotateRef = useRef<AutoRotateSectionRef>(null);
   const tipsInputRef = useRef<TipsInputSectionRef>(null);
 
@@ -47,75 +40,27 @@ const SettingsPage: React.FC = () => {
     setAutoStart(config.autoStart);
   };
 
-  // 当配置初始化完成时，同步本地状态
+  // 当配置加载完成时，同步本地状态
   useEffect(() => {
-    if (isInitialized) {
+    if (config) {
       setLocalState(config);
     }
-  }, [isInitialized]);
+  }, [config]);
 
   // 在 DOM 更新后（绘制前）调用 resizeWindow（会阻塞❗）
   useLayoutEffect(() => {
-    if (isInitialized) {
+    if (config) {
       console.log("useLayoutEffect");
       resizeWindow();
     }
-  }, [isInitialized]);
+  }, [config]);
 
-  const handleSave = async () => {
-    // 验证提示语
-    if (!tipsInputRef.current?.validateTips()) {
-      return;
-    }
-
-    // 从子组件获取最新的值
-    const autoRotateValues = autoRotateRef.current?.getValues();
-    const tipsText = tipsInputRef.current?.getTipsText() || "";
-
-    const tips = parseTipsFromText(tipsText);
-    console.log("handleSave tips", tips);
-
-    const actualAutoStart = await isEnabled();
-    console.log("actualAutoStart", actualAutoStart);
-    if (autoStart !== actualAutoStart) {
-      console.log("autoStart !== actualAutoStart");
-      // 向配置看齐
-      if (autoStart) {
-        // 如果配置是开启，但是实际是关闭，则开启
-        await enable();
-      } else {
-        // 如果配置是关闭，但是实际是开启，则关闭
-        await disable();
-      }
-    }
-
-    await updateConfig({
-      tips,
-      rotateInterval: autoRotateValues?.rotateInterval,
-      autoRotate: autoRotateValues?.autoRotate,
-      theme,
-      autoStart,
-    });
-
-    console.log("Settings saved successfully");
-
-    appWindow.current.close();
+  const handleReset = (resetConfig: FloatOneConfig) => {
+    // 重置本地状态
+    setLocalState(resetConfig);
   };
 
-  const handleReset = async () => {
-    // 重置到首次加载时的配置
-    setLocalState(config);
-
-    // 重置子组件状态到初始值
-    autoRotateRef.current?.reset();
-    tipsInputRef.current?.reset();
-  };
-
-  const handleCheckUpdate = async () => {
-    await checkForUpdates(true);
-  };
-
-  return isInitialized ? (
+  return config ? (
     <Card
       // shadow="lg"
       shadow="none" // 默认有一个
@@ -160,32 +105,14 @@ const SettingsPage: React.FC = () => {
       <Divider className="bg-gray-700/30" />
 
       <CardFooter className="flex justify-between gap-3 p-4">
-        <Button
-          variant="light"
-          onPress={handleCheckUpdate}
-          startContent={<Download size={16} />}
-          className={buttonStyles.hoverGray800}
-        >
-          检查更新
-        </Button>
-        <div className="flex gap-3">
-          <Button
-            variant="light"
-            onPress={handleReset}
-            startContent={<RotateCcw size={16} />}
-            className={buttonStyles.hoverGray800}
-          >
-            重置
-          </Button>
-          <Button
-            color="primary"
-            onPress={handleSave}
-            startContent={<Save size={16} />}
-            className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400"
-          >
-            保存
-          </Button>
-        </div>
+        <VersionButton />
+        <SettingsActions
+          theme={theme}
+          autoStart={autoStart}
+          autoRotateRef={autoRotateRef}
+          tipsInputRef={tipsInputRef}
+          onReset={handleReset}
+        />
       </CardFooter>
     </Card>
   ) : (

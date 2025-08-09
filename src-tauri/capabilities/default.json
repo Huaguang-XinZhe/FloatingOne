@@ -29,9 +29,7 @@
     "core:window:allow-set-shadow",
     "dialog:allow-message",
     "dialog:default",
-    "updater:allow-check",
-    "updater:allow-download",
-    "updater:allow-install",
+    "updater:default",
     {
       "identifier": "http:default",
       "allow": [{ "url": "https://github.com/**" }]

@@ -4,7 +4,7 @@ import { ChevronLeft, Pin } from "lucide-react";
 import { Window } from "@tauri-apps/api/window";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { buttonStyles } from "@/styles/component-styles";
-import { Theme } from "@/config/config";
+import { Theme } from "@/types";
 
 interface SettingsHeaderProps {
   theme: Theme;
