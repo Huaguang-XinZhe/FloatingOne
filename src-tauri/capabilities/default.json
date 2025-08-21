@@ -36,6 +36,7 @@
     },
     "notification:allow-request-permission",
     "notification:default",
-    "positioner:default"
+    "positioner:default",
+    "core:window:allow-destroy"
   ]
 }

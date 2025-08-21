@@ -18,7 +18,7 @@ import type {
   AutoRotateSectionRef,
   TipsInputSectionRef,
 } from "@/components/settings";
-import VersionButton from "@/components/VersionButton";
+import VersionButton from "@/components/settings/VersionButton";
 import { FloatOneConfig, Theme } from "@/types";
 
 const SettingsPage: React.FC = () => {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@heroui/button";
 import { ChevronLeft, Pin } from "lucide-react";
 import { Window } from "@tauri-apps/api/window";
-import { ThemeSwitcher } from "@/components/ThemeSwitcher";
+import { ThemeSwitcher } from "@/components/settings/ThemeSwitcher";
 import { buttonStyles } from "@/styles/component-styles";
 import { Theme } from "@/types";
 

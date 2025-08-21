@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import FloatingTip from "@/components/FloatingTip";
+import HomePage from "@/pages/home";
 import AutoResizeWindow from "./components/AutoResizeWindow";
 import SettingsPage from "./pages/settings";
 // import MouseEventsTest from "./components/test/MouseEventsTest";
@@ -11,7 +11,7 @@ function App() {
         path="/"
         element={
           <AutoResizeWindow initialResize={false}>
-            <FloatingTip />
+            <HomePage />
           </AutoResizeWindow>
         }
       />

@@ -22,7 +22,12 @@ export default class VersionUpdateUtils {
         return;
       }
 
-      console.log(`🆕 发现新版本: ${update.version}`);
+      if (update.version === this.update?.version) {
+        console.log("✅ 当前已缓存了最新版本");
+        return;
+      }
+
+      console.log(`🆕 发现未缓存的新版本: ${update.version}`);
       this.update = update;
 
       // 自动开始下载

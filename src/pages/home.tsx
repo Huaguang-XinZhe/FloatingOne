@@ -1,47 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useWindowDrag } from "@/hooks/useWindowDrag";
-import { useFloatingExpand } from "@/hooks/useFloatingTip";
+import { useFloatingTip } from "../components/FloatingTip/hooks";
 import { glowEffectStyles } from "@/styles/component-styles";
-import { FloatingTipButtons } from "@/components/FloatingTipButtons";
+import { FloatingTipButtons } from "@/components/FloatingTip/FloatingTipButtons";
 import { gradient } from "@/components/primitives";
 import { cn } from "@/utils/cn";
-import { useEffect } from "react";
-import { useStoreState } from "tauri-mw-store";
+import { useConfig } from "@/store/appStore";
 
-const FloatingTip: React.FC = () => {
+const HomePage: React.FC = () => {
   const { handleDragStart } = useWindowDrag();
-  const config = useStoreState("config");
-
-  console.log("FloatingTip config:", config);
-
-  // 在 React 中，一定不要写这种代码，会导致前后渲染 hooks 数量不一致而报错❗
-  // if (!config) {
-  //   return null;
-  // }
+  const config = useConfig();
 
   const {
     isExpanded,
     isContentVisible,
     rotation,
+    currentTip,
     handleMouseEnter,
     handleMouseLeave,
-    currentTip,
-  } = useFloatingExpand(
-    config?.tips || [],
-    config?.autoRotate || true,
-    config?.rotateInterval || 60
-  );
-
-  // 调试信息
-  console.log("FloatingTip currentTip:", currentTip);
+  } = useFloatingTip(config);
 
   useEffect(() => {
-    // 延迟展开（掩盖安装首次 hover 时的卡顿展开的现象）
-    setTimeout(() => {
-      handleMouseEnter();
-    }, 1000);
+    // 初始化时默认展开
+    handleMouseEnter();
   }, []);
 
   return (
@@ -111,16 +94,7 @@ const FloatingTip: React.FC = () => {
                 {/* 光晕效果 */}
                 <div className={glowEffectStyles.right} />
 
-                <motion.div
-                  // initial={{ opacity: 0 }}
-                  // animate={{
-                  //   opacity: 1,
-                  // }}
-                  // transition={{
-                  //   duration: 0.6,
-                  // }}
-                  className="flex justify-between items-center z-10 relative gap-1"
-                >
+                <motion.div className="flex justify-between items-center z-10 relative gap-1">
                   <div className="flex-1 overflow-hidden select-none">
                     <p className="text-lg font-medium whitespace-pre-line">
                       {currentTip?.main}
@@ -142,4 +116,4 @@ const FloatingTip: React.FC = () => {
   );
 };
 
-export default FloatingTip;
+export default HomePage;
